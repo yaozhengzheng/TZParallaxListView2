@@ -22,8 +22,8 @@ public class MainActivity extends Activity {
 
 		pListView.setParallaxImageView(ivBackground);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, new String[] { "星期一  上班", "星期二  打豆豆",/*
-						"星期三  看星星", "星期四    学习", "星期五 放假", "星期六  拍拖", "星期天  看电影","...."*/ });
+				android.R.layout.simple_list_item_1, new String[] { "星期一  上班", "星期二  打豆豆",
+						"星期三  看星星", "星期四    学习", "星期五 放假", "星期六  拍拖", "星期天  看电影","...." });
 
 		pListView.setAdapter(adapter);
 	}
