@@ -28,6 +28,8 @@ public class MainActivity extends Activity {
 		pListView.setAdapter(adapter);
 	}
 
+	
+	//在view加载完成时设定缩放级别
 	@Override
 	public void onWindowFocusChanged(boolean hasWindowFocus) {
 		super.onWindowFocusChanged(hasWindowFocus);

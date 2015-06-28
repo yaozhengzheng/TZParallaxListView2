@@ -65,8 +65,11 @@ public class ParallaxListView extends ListView {
 	private void init(Context context) {
 		setVerticalScrollBarEnabled(false);
 		mDefaultImageViewHeight = 449;
+
 	}
 
+	
+	//内部滑动时调用
 	@Override
 	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
 		// 监听listView的滑动
@@ -77,16 +80,18 @@ public class ParallaxListView extends ListView {
 		// 得到头部划出去的距离----<0
 		if (header.getTop() < 0 && mImageView.getHeight() > mImageViewHeight) {
 
-			mImageView.getLayoutParams().height = Math.max(mImageView.getHeight()
-					- Math.abs(header.getTop()),mDefaultImageViewHeight);
+			mImageView.getLayoutParams().height = Math.max(
+					mImageView.getHeight() - Math.abs(header.getTop()), mDefaultImageViewHeight);
 			header.layout(header.getLeft(), 0, header.getRight(), header.getHeight());
-			
+
 			// 调整ImageView所在容器的高度
 			mImageView.requestLayout();
-			
+
 		}
 	}
 
+	
+	//在划出屏幕时调用
 	@Override
 	protected boolean overScrollBy(int deltaX, int deltaY, int scrollX, int scrollY,
 			int scrollRangeX, int scrollRangeY, int maxOverScrollX, int maxOverScrollY,
@@ -101,11 +106,25 @@ public class ParallaxListView extends ListView {
 				scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
 	}
 
+	/**
+	 * 处理listView，ScrollView滑动过头
+	 * @param deltaX
+	 * @param deltaY
+	 * @param scrollX
+	 * @param scrollY
+	 * @param scrollRangeX
+	 * @param scrollRangeY
+	 * @param maxOverScrollX
+	 * @param maxOverScrollY
+	 * @param isTouchEvent
+	 * @return
+	 */
 	private boolean resizeOverScrollby(int deltaX, int deltaY, int scrollX, int scrollY,
 			int scrollRangeX, int scrollRangeY, int maxOverScrollX, int maxOverScrollY,
 			boolean isTouchEvent) {
 		if (deltaY < 0) {
-			mImageView.getLayoutParams().height = Math.max(mImageView.getHeight() + Math.abs(deltaY),mDefaultImageViewHeight);
+			mImageView.getLayoutParams().height = Math.max(
+					mImageView.getHeight() + Math.abs(deltaY), mDefaultImageViewHeight);
 			// 重新调整ImageView的宽高
 			mImageView.requestLayout();
 		} else {
@@ -116,12 +135,14 @@ public class ParallaxListView extends ListView {
 			mImageView.requestLayout();
 		}
 
-		return false;
+		return true;
 	}
 
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
+		
+		//松开手时，展示动画效果
 		if (ev.getAction() == MotionEvent.ACTION_UP) {
 			ResetAnimation anim = new ResetAnimation(mImageView, mDefaultImageViewHeight);
 
@@ -132,29 +153,29 @@ public class ParallaxListView extends ListView {
 		return super.onTouchEvent(ev);
 	}
 
+	//自定义动画效果
 	public class ResetAnimation extends Animation {
 
 		private ImageView mView;
-//		private int targetHeight;
+		// private int targetHeight;
 		private int originalHeith;
 		private int extraHeight;
 
 		public ResetAnimation(ImageView mView, int targetHeight) {
 			// 图片动画地减小高度
 			this.mView = mView;
-//			this.targetHeight = targetHeight;
+			// this.targetHeight = targetHeight;
 			this.originalHeith = mView.getHeight();
-			
-			extraHeight=originalHeith-targetHeight;
+
+			extraHeight = originalHeith - targetHeight;
 		}
 
-		
 		@Override
 		protected void applyTransformation(float interpolatedTime, Transformation t) {
 			super.applyTransformation(interpolatedTime, t);
-			
-			
-			mView.getLayoutParams().height=(int) (originalHeith-extraHeight*interpolatedTime);
+
+			//interpolatedTime的值为0.0~1.0f
+			mView.getLayoutParams().height = (int) (originalHeith - extraHeight * interpolatedTime);
 			mView.requestLayout();
 		}
 	}

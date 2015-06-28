@@ -3,9 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    
-  
-
     <ImageView
         android:id="@+id/ivBackground"
         android:layout_width="match_parent"
@@ -15,14 +12,14 @@
         android:contentDescription="@string/app_name"
         android:scaleType="centerCrop"
         android:src="@drawable/header" />
-      <ImageView 
-          android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    
-    
-    android:layout_marginLeft="20dp"
-    android:paddingBottom="20dp"
-    android:layout_alignParentBottom="true"
-        android:src="@drawable/lf"
-        android:contentDescription="@string/app_name"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:contentDescription="@string/app_name"
+        android:paddingBottom="20dp"
+        android:src="@drawable/lf" />
+
 </RelativeLayout>
